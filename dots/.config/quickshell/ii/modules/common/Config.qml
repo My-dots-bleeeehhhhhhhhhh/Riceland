@@ -162,6 +162,19 @@ Singleton {
             }
 
             property JsonObject background: JsonObject {
+                property JsonObject audioBars: JsonObject {
+                    property bool enable: false
+                    property string screens: "" // "" = every monitor
+                    property int bars: 90
+                    property real gap: 3
+                    property real maxHeight: 140
+                    property real minHeight: 2
+                    property real bottomMargin: 0
+                    property real radius: 0
+                    property real maxValue: 1000
+                    property string color: "#ffffff"
+                    property real opacity: 0.85
+                }
                 property JsonObject widgets: JsonObject {
                     property JsonObject levelIntro: JsonObject {
                         property bool enable: false

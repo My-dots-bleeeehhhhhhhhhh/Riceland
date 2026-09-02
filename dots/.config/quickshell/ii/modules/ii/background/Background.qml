@@ -20,6 +20,7 @@ import qs.modules.ii.background.widgets.weather
 import qs.modules.ii.background.widgets.ultrastats
 import qs.modules.ii.background.widgets.ultrafetch
 import qs.modules.ii.background.widgets.levelIntro
+import qs.modules.ii.background.widgets.audioBars
 
 Variants {
     id: root
@@ -225,6 +226,16 @@ Variants {
                         color: CF.ColorUtils.transparentize(Appearance.colors.colLayer0, 0.7)
                     }
                 }
+            }
+
+            Loader {
+                anchors.fill: parent
+                active: Config.options.background.audioBars.enable
+                    && (Config.options.background.audioBars.screens.length === 0
+                        || Config.options.background.audioBars.screens
+                            .split(",").map(s => s.trim())
+                            .includes(bgRoot.modelData.name))
+                sourceComponent: AudioBars { screenWidth: bgRoot.screen.width }
             }
 
             WidgetCanvas {

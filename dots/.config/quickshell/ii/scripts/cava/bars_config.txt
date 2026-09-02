@@ -1,0 +1,18 @@
+# Bars for the desktop visualiser. Distinct bars rather than the joined
+# "waves" mode the media popup uses, and a lot more of them.
+[general]
+mode = normal
+framerate = 60
+autosens = 1
+bars = 90
+
+[output]
+method = raw
+raw_target = /dev/stdout
+data_format = ascii
+ascii_max_range = 1000
+channels = mono
+mono_option = average
+
+[smoothing]
+noise_reduction = 30
