@@ -163,6 +163,25 @@ Singleton {
 
             property JsonObject background: JsonObject {
                 property JsonObject widgets: JsonObject {
+                    property JsonObject levelIntro: JsonObject {
+                        property bool enable: false
+                        property string placementStrategy: "free"
+                        property real x: 60
+                        property real y: 1200
+                        property string topText: "NOBARA /// ULTRAKILL THEME"
+                        property string bottomText: "NOCTURNAL OS"
+                        property int topFontSize: 24
+                        property int bottomFontSize: 52
+                        property real topLetterSpacing: 4
+                        property real bottomLetterSpacing: 6
+                        property real lineGap: 2
+                        property bool centered: true
+                        property string fontFamily: "VCR OSD Mono"
+                        property string textColor: "#ffffff"
+                        property bool grabEffect: false
+                        property string screens: ""
+                        property string positions: "{}"
+                    }
                     property JsonObject ultrafetch: JsonObject {
                         property bool enable: false
                         property string placementStrategy: "free"

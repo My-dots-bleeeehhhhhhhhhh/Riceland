@@ -19,6 +19,7 @@ import qs.modules.ii.background.widgets.clock
 import qs.modules.ii.background.widgets.weather
 import qs.modules.ii.background.widgets.ultrastats
 import qs.modules.ii.background.widgets.ultrafetch
+import qs.modules.ii.background.widgets.levelIntro
 
 Variants {
     id: root
@@ -253,6 +254,22 @@ Variants {
                         duration: Appearance.animation.elementMove.duration
                         easing.type: Appearance.animation.elementMove.type
                         easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
+                    }
+                }
+
+                FadeLoader {
+                    shown: Config.options.background.widgets.levelIntro.enable
+                        && (Config.options.background.widgets.levelIntro.screens.length === 0
+                            || Config.options.background.widgets.levelIntro.screens
+                                .split(",").map(s => s.trim())
+                                .includes(bgRoot.modelData.name))
+                    sourceComponent: LevelIntro {
+                        screenName: bgRoot.modelData.name
+                        screenWidth: bgRoot.screen.width
+                        screenHeight: bgRoot.screen.height
+                        scaledScreenWidth: bgRoot.screen.width
+                        scaledScreenHeight: bgRoot.screen.height
+                        wallpaperScale: 1
                     }
                 }
 
