@@ -29,7 +29,7 @@ Item {
         // the same number the Repeater uses. A static config silently caps the
         // audio at its own count and any bars beyond it stay flat forever.
         command: ["cava-bars",
-            String(root.barCount),
+            String(Math.min(256, root.barCount)),
             String(root.config.lowerCutoff ?? 40),
             String(root.config.higherCutoff ?? 12000),
             String(root.config.noiseReduction ?? 30)]
@@ -49,6 +49,20 @@ Item {
             cavaProc.running = false;
             cavaProc.running = Qt.binding(() => root.visible);
         }
+    }
+
+    // cava will not emit more than 256 values, so beyond that the bars are
+    // resampled from what it does send rather than left flat. Interpolating
+    // rather than repeating keeps the envelope smooth instead of stair-stepped.
+    function sample(i) {
+        const n = root.values.length;
+        if (n === 0) return 0;
+        if (n === 1) return root.values[0];
+        const pos = i * (n - 1) / Math.max(1, root.barCount - 1);
+        const lo = Math.floor(pos);
+        const hi = Math.min(n - 1, lo + 1);
+        const t = pos - lo;
+        return (root.values[lo] ?? 0) * (1 - t) + (root.values[hi] ?? 0) * t;
     }
 
     Row {
@@ -72,7 +86,7 @@ Item {
             Rectangle {
                 required property int index
                 readonly property real value:
-                    (root.values[index] ?? 0) / (root.config.maxValue ?? 1000)
+                    root.sample(index) / (root.config.maxValue ?? 1000)
 
                 width: (barRow.width - barRow.spacing * (root.barCount - 1))
                        / root.barCount
