@@ -172,6 +172,9 @@ Singleton {
                     property real bottomMargin: 0
                     property real radius: 0
                     property real maxValue: 1000
+                    property int lowerCutoff: 40
+                    property int higherCutoff: 12000
+                    property int noiseReduction: 30
                     property string color: "#ffffff"
                     property real opacity: 0.85
                 }

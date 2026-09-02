@@ -25,8 +25,14 @@ Item {
     Process {
         id: cavaProc
         running: root.visible
-        command: ["cava", "-p",
-            FileUtils.trimFileProtocol(Directories.scriptPath) + "/cava/bars_config.txt"]
+        // cava's bar count comes from its config file, so it is generated from
+        // the same number the Repeater uses. A static config silently caps the
+        // audio at its own count and any bars beyond it stay flat forever.
+        command: ["cava-bars",
+            String(root.barCount),
+            String(root.config.lowerCutoff ?? 40),
+            String(root.config.higherCutoff ?? 12000),
+            String(root.config.noiseReduction ?? 30)]
         stdout: SplitParser {
             onRead: data => {
                 const points = data.split(";")
@@ -36,6 +42,13 @@ Item {
             }
         }
         onRunningChanged: if (!cavaProc.running) root.values = []
+
+        readonly property string signature: command.join("|")
+        onSignatureChanged: {
+            root.values = [];
+            cavaProc.running = false;
+            cavaProc.running = Qt.binding(() => root.visible);
+        }
     }
 
     Row {
