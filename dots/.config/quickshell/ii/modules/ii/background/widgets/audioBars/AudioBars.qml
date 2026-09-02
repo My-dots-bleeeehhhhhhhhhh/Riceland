@@ -29,10 +29,12 @@ Item {
         // the same number the Repeater uses. A static config silently caps the
         // audio at its own count and any bars beyond it stay flat forever.
         command: ["cava-bars",
-            String(Math.min(256, root.barCount)),
-            String(root.config.lowerCutoff ?? 40),
-            String(root.config.higherCutoff ?? 12000),
-            String(root.config.noiseReduction ?? 30)]
+            "--bars", String(Math.min(256, root.barCount)),
+            "--low", String(root.config.lowerCutoff ?? 40),
+            "--high", String(root.config.higherCutoff ?? 12000),
+            "--noise", String(root.config.noiseReduction ?? 30),
+            "--sens", String(root.config.sensitivity ?? 100),
+            "--autosens", (root.config.autosens ?? true) ? "1" : "0"]
         stdout: SplitParser {
             onRead: data => {
                 const points = data.split(";")
@@ -85,8 +87,17 @@ Item {
 
             Rectangle {
                 required property int index
-                readonly property real value:
-                    root.sample(index) / (root.config.maxValue ?? 1000)
+                // gain scales everything; curve below 1 lifts the quiet end
+                // harder than the loud end, so detail appears without the
+                // peaks simply clipping flat against maxHeight.
+                readonly property real value: {
+                    const raw = root.sample(index) / (root.config.maxValue ?? 1000);
+                    const gained = raw * (root.config.gain ?? 1.0);
+                    const curve = root.config.curve ?? 1.0;
+                    const shaped = curve === 1.0 ? gained
+                                                 : Math.pow(Math.max(0, gained), curve);
+                    return Math.min(1.0, shaped);
+                }
 
                 width: (barRow.width - barRow.spacing * (root.barCount - 1))
                        / root.barCount

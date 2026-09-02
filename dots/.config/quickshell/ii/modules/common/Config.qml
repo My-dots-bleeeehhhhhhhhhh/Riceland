@@ -175,6 +175,10 @@ Singleton {
                     property int lowerCutoff: 40
                     property int higherCutoff: 12000
                     property int noiseReduction: 30
+                    property int sensitivity: 100
+                    property bool autosens: true
+                    property real gain: 1.0
+                    property real curve: 1.0
                     property string color: "#ffffff"
                     property real opacity: 0.85
                 }
