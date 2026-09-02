@@ -169,6 +169,8 @@ Singleton {
                         property real x: 60
                         property real y: 700
                         property int fontSize: 15
+                        property int logoFontSize: 9
+                        property real logoLineHeight: 1.0
                         property int infoWidth: 44
                         property int refreshSeconds: 60
                         property bool showPanel: true

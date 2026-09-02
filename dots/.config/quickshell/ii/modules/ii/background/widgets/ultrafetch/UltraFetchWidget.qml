@@ -89,7 +89,8 @@ AbstractBackgroundWidget {
     Component.onCompleted: refresh()
 
     readonly property string settingsSignature: [
-        root.configEntry.fontSize, root.configEntry.showPanel,
+        root.configEntry.fontSize, root.configEntry.logoFontSize,
+        root.configEntry.logoLineHeight, root.configEntry.showPanel,
         root.configEntry.textColor, root.configEntry.framesPath,
         root.configEntry.infoWidth
     ].join("|")
@@ -128,6 +129,9 @@ AbstractBackgroundWidget {
             anchors { left: parent.left; top: parent.top; leftMargin: 20; topMargin: 16 }
             spacing: 20
 
+            // The logo is deliberately not tied to the info font. More chafa
+            // cells at a smaller size is the only way to get detail out of a
+            // 32-row silhouette without the widget swallowing the screen.
             StyledText {
                 visible: root.currentFrame.length > 0
                 text: root.currentFrame
@@ -135,9 +139,10 @@ AbstractBackgroundWidget {
                 Layout.alignment: Qt.AlignTop
                 font {
                     family: Appearance.font.family.monospace
-                    pixelSize: root.configEntry.fontSize ?? 15
+                    pixelSize: root.configEntry.logoFontSize
+                        ?? root.configEntry.fontSize ?? 15
                 }
-                lineHeight: 1.0
+                lineHeight: root.configEntry.logoLineHeight ?? 1.0
             }
 
             StyledText {
