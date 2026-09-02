@@ -44,6 +44,11 @@ Item {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+            // Not simply the bar's height: with the bar at the bottom, its
+            // layer-shell surface is taller than the panel you can see -- the
+            // extra is transparent shadow padding above it. Clearing the full
+            // layer height leaves the strip visibly floating, so this wants the
+            // distance to the bar's *visible* top edge.
             bottomMargin: root.config.bottomMargin ?? 0
         }
         spacing: root.config.gap ?? 3
