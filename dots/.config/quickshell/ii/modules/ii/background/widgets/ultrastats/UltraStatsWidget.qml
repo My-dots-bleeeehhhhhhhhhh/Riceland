@@ -83,11 +83,11 @@ AbstractBackgroundWidget {
     }
 
     Component.onCompleted: refresh()
-    Connections {
-        target: root.configEntry
-        function onCompactChanged() { root.refresh() }
-        function onSectionsChanged() { root.refresh() }
-    }
+    readonly property string settingsSignature: [
+        root.configEntry.compact, root.configEntry.sections,
+        root.configEntry.fontSize, root.configEntry.showPanel
+    ].join("|")
+    onSettingsSignatureChanged: root.refresh()
 
     Timer {
         interval: root.refreshSeconds * 1000
@@ -112,9 +112,16 @@ AbstractBackgroundWidget {
         implicitWidth: statsText.implicitWidth + 40
         implicitHeight: statsText.implicitHeight + 32
 
+        clip: true
+
         StyledText {
             id: statsText
-            anchors.centerIn: parent
+            anchors {
+                left: parent.left
+                top: parent.top
+                leftMargin: 20
+                topMargin: 16
+            }
             horizontalAlignment: Text.AlignLeft
             color: root.colText
             text: root.output.length > 0 ? root.output : "ultrastats: no data"
