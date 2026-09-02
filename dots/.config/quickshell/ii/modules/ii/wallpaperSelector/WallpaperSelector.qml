@@ -28,17 +28,16 @@ Scope {
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
             color: "transparent"
 
-            anchors.top: true
-            margins {
-                top: Config?.options.bar.vertical ? Appearance.sizes.hyprlandGapsOut : Appearance.sizes.barHeight + Appearance.sizes.hyprlandGapsOut
+            // Full-screen overlay rather than a panel hanging off the top edge.
+            // Anchoring all four sides makes the window cover the output, and
+            // dropping the mask lets the dimmed area take clicks -- which is
+            // what makes click-anywhere-to-dismiss work.
+            anchors {
+                top: true
+                bottom: true
+                left: true
+                right: true
             }
-
-            mask: Region {
-                item: content
-            }
-
-            implicitHeight: Appearance.sizes.wallpaperSelectorHeight
-            implicitWidth: Appearance.sizes.wallpaperSelectorWidth
 
             Component.onCompleted: {
                 GlobalFocusGrab.addDismissable(panelWindow);
@@ -55,9 +54,8 @@ Scope {
 
             WallpaperSelectorContent {
                 id: content
-                anchors {
-                    fill: parent
-                }
+                anchors.fill: parent
+                monitorIsFocused: panelWindow.monitorIsFocused
             }
         }
     }

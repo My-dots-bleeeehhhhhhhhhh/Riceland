@@ -12,11 +12,23 @@ MouseArea {
     property bool isDirectory: fileModelData.fileIsDir
     property bool useThumbnail: Images.isValidImageByName(fileModelData.fileName)
 
+    // Let the view decide how thumbnails are sourced.
+    //
+    // The stock selector relied entirely on Wallpapers.generateThumbnail()
+    // batch-generating the whole folder up front, and set generateThumbnail
+    // false here. When that batch does not produce the size the view asks for,
+    // every card renders as an empty rectangle with no way to recover. Exposing
+    // these two lets a view generate on demand instead, which for a carousel is
+    // cheaper anyway: only the handful of visible cards ever get built.
+    property bool generateThumbnail: false
+    property string thumbnailSizeNameOverride: ""
+
     property alias colBackground: background.color
     property alias colText: wallpaperItemName.color
     property alias radius: background.radius
     property alias margins: background.anchors.margins
     property alias padding: wallpaperItemColumnLayout.anchors.margins
+    property alias showLabel: wallpaperItemName.visible
     margins: Appearance.sizes.wallpaperSelectorItemMargins
     padding: Appearance.sizes.wallpaperSelectorItemPadding
 
@@ -60,8 +72,14 @@ MouseArea {
                     active: root.useThumbnail
                     sourceComponent: ThumbnailImage {
                         id: thumbnailImage
-                        generateThumbnail: false
+                        generateThumbnail: root.generateThumbnail
                         sourcePath: fileModelData.filePath
+
+                        // Pin the size bucket when the view names one, so the
+                        // path this looks for is the path something actually
+                        // generates. Left empty it keeps the stock behaviour of
+                        // deriving the bucket from its own loaded sourceSize.
+                        thumbnailSizeName: root.thumbnailSizeNameOverride.length > 0 ? root.thumbnailSizeNameOverride : Images.thumbnailSizeNameForDimensions(sourceSize.width, sourceSize.height)
 
                         cache: false
                         fillMode: Image.PreserveAspectCrop

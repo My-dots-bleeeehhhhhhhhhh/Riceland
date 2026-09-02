@@ -163,6 +163,15 @@ Singleton {
 
             property JsonObject background: JsonObject {
                 property JsonObject widgets: JsonObject {
+                    property JsonObject ultrastats: JsonObject {
+                        property bool enable: false
+                        property string placementStrategy: "free" // "free", "leastBusy", "mostBusy"
+                        property real x: 60
+                        property real y: 60
+                        property int fontSize: 15
+                        property int refreshSeconds: 300
+                        property bool showPanel: true
+                    }
                     property JsonObject clock: JsonObject {
                         property bool enable: true
                         property bool showOnlyWhenLocked: false

@@ -1,0 +1,14 @@
+[Unit]
+Description=Hyprland session
+Documentation=man:systemd.special(7)
+
+# BindsTo implies Requires, so starting this target starts
+# graphical-session.target -- which is what xdg-desktop-portal.service waits
+# for (Requisite=graphical-session.target). Nothing in this Hyprland setup was
+# starting it, so the portal could never launch, which broke link opening,
+# screen sharing and global shortcuts for every Flatpak and Electron app.
+BindsTo=graphical-session.target
+Wants=graphical-session-pre.target
+After=graphical-session-pre.target
+Wants=xdg-desktop-autostart.target
+After=xdg-desktop-autostart.target
