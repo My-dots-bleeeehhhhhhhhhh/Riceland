@@ -1,10 +1,16 @@
 # Bars for the desktop visualiser. Distinct bars rather than the joined
 # "waves" mode the media popup uses, and a lot more of them.
+#
+# cava spreads its bars across 50Hz-22050Hz by default, but almost nothing in
+# music lives above ~12kHz, so the right third of the strip sits flat no matter
+# what is playing. Narrowing the range spends every bar on audible content.
 [general]
 mode = normal
 framerate = 60
 autosens = 1
 bars = 90
+lower_cutoff_freq = 40
+higher_cutoff_freq = 12000
 
 [output]
 method = raw
