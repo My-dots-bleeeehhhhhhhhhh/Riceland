@@ -63,10 +63,11 @@ AbstractBackgroundWidget {
         id: statsProc
         command: {
             if (root.configEntry.compact) return ["ultrastats", "--compact"];
+            const args = ["ultrastats"];
             const sections = root.configEntry.sections ?? "";
-            return sections.length > 0
-                ? ["ultrastats", "--sections", sections]
-                : ["ultrastats"];
+            if (sections.length > 0) args.push("--sections", sections);
+            if (root.configEntry.showLegacy) args.push("--legacy");
+            return args;
         }
         stdout: StdioCollector {
             id: statsCollector
@@ -85,7 +86,8 @@ AbstractBackgroundWidget {
     Component.onCompleted: refresh()
     readonly property string settingsSignature: [
         root.configEntry.compact, root.configEntry.sections,
-        root.configEntry.fontSize, root.configEntry.showPanel
+        root.configEntry.fontSize, root.configEntry.showPanel,
+        root.configEntry.showLegacy
     ].join("|")
     onSettingsSignatureChanged: root.refresh()
 

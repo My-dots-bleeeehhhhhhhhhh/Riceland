@@ -176,6 +176,7 @@ Singleton {
                         property int borderWidth: 1
                         property string borderColor: "#ffffff"
                         property bool grabEffect: false
+                        property bool showLegacy: false // #500/#501: no level in this build
                         property string screens: "" // "" = every monitor, else "DP-5,HDMI-A-2"
                         property string positions: "{}" // per-monitor {"DP-5":{"x":0,"y":0}}
                     }
