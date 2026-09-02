@@ -163,6 +163,23 @@ Singleton {
 
             property JsonObject background: JsonObject {
                 property JsonObject widgets: JsonObject {
+                    property JsonObject ultrafetch: JsonObject {
+                        property bool enable: false
+                        property string placementStrategy: "free"
+                        property real x: 60
+                        property real y: 700
+                        property int fontSize: 15
+                        property int infoWidth: 44
+                        property int refreshSeconds: 60
+                        property bool showPanel: true
+                        property int borderWidth: 1
+                        property string borderColor: "#ffffff"
+                        property string textColor: "#ffffff"
+                        property bool grabEffect: false
+                        property string screens: ""
+                        property string positions: "{}"
+                        property string framesPath: ""
+                    }
                     property JsonObject ultrastats: JsonObject {
                         property bool enable: false
                         property string placementStrategy: "free" // "free", "leastBusy", "mostBusy"
