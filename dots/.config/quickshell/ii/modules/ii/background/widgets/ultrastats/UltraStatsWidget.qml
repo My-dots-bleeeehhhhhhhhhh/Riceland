@@ -17,15 +17,57 @@ AbstractBackgroundWidget {
     configEntryName: "ultrastats"
     needsColText: true
 
+    // Which monitor this copy is on. Background.qml is a Variants over every
+    // screen, so each one builds its own widget -- and they all read the same
+    // configEntry.x/y, which is why they moved together. Positions are kept
+    // per monitor name instead, falling back to the shared x/y for a screen
+    // that has never been dragged.
+    property string screenName: ""
+    readonly property var positions: {
+        try { return JSON.parse(root.configEntry.positions || "{}"); }
+        catch (e) { return {}; }
+    }
+    readonly property var myPosition: positions[screenName] ?? null
+
+    targetX: Math.max(0, Math.min(myPosition ? myPosition.x : configEntry.x,
+                                  scaledScreenWidth - width))
+    targetY: Math.max(0, Math.min(myPosition ? myPosition.y : configEntry.y,
+                                  scaledScreenHeight - height))
+
+    // The base scales to 1.05 while held, which shifts the thing you are
+    // trying to line up. Off by default; grabEffect brings it back.
+    scale: (configEntry.grabEffect && draggable && containsPress) ? 1.05 : 1
+
+    // The base's own onReleased still runs and writes the shared x/y; this
+    // adds the per-monitor record on top of it.
+    Connections {
+        target: root
+        function onReleased() {
+            if (root.screenName.length === 0) return;
+            let all = {};
+            try { all = JSON.parse(root.configEntry.positions || "{}"); } catch (e) {}
+            all[root.screenName] = { x: root.x, y: root.y };
+            root.configEntry.positions = JSON.stringify(all);
+        }
+    }
+
     implicitWidth: backgroundShape.implicitWidth
     implicitHeight: backgroundShape.implicitHeight
 
     property string output: ""
     property int refreshSeconds: configEntry.refreshSeconds ?? 300
 
+    // `compact` is the short block; otherwise the full readout, optionally
+    // trimmed to a few sections since all of it is 141 lines.
     Process {
         id: statsProc
-        command: ["ultrastats", "--compact"]
+        command: {
+            if (root.configEntry.compact) return ["ultrastats", "--compact"];
+            const sections = root.configEntry.sections ?? "";
+            return sections.length > 0
+                ? ["ultrastats", "--sections", sections]
+                : ["ultrastats"];
+        }
         stdout: StdioCollector {
             id: statsCollector
             onStreamFinished: {
@@ -41,6 +83,11 @@ AbstractBackgroundWidget {
     }
 
     Component.onCompleted: refresh()
+    Connections {
+        target: root.configEntry
+        function onCompactChanged() { root.refresh() }
+        function onSectionsChanged() { root.refresh() }
+    }
 
     Timer {
         interval: root.refreshSeconds * 1000
@@ -60,6 +107,8 @@ AbstractBackgroundWidget {
         color: root.configEntry.showPanel
             ? ColorUtils.transparentize(Appearance.colors.colLayer0, 0.25)
             : "transparent"
+        border.width: root.configEntry.borderWidth ?? 1
+        border.color: root.configEntry.borderColor ?? "#ffffff"
         implicitWidth: statsText.implicitWidth + 40
         implicitHeight: statsText.implicitHeight + 32
 

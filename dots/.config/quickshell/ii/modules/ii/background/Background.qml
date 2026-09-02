@@ -257,7 +257,12 @@ Variants {
 
                 FadeLoader {
                     shown: Config.options.background.widgets.ultrastats.enable
+                        && (Config.options.background.widgets.ultrastats.screens.length === 0
+                            || Config.options.background.widgets.ultrastats.screens
+                                .split(",").map(s => s.trim())
+                                .includes(bgRoot.modelData.name))
                     sourceComponent: UltraStatsWidget {
+                        screenName: bgRoot.modelData.name
                         screenWidth: bgRoot.screen.width
                         screenHeight: bgRoot.screen.height
                         scaledScreenWidth: bgRoot.screen.width
