@@ -175,6 +175,7 @@ Singleton {
                         property string sections: "" // "" = all; e.g. "campaign,summary"
                         property int borderWidth: 1
                         property string borderColor: "#ffffff"
+                        property string textColor: "#ffffff"
                         property bool grabEffect: false
                         property bool showLegacy: false // #500/#501: no level in this build
                         property string screens: "" // "" = every monitor, else "DP-5,HDMI-A-2"

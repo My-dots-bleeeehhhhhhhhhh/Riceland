@@ -15,7 +15,7 @@ AbstractBackgroundWidget {
     id: root
 
     configEntryName: "ultrastats"
-    needsColText: true
+    needsColText: false
 
     // Which monitor this copy is on. Background.qml is a Variants over every
     // screen, so each one builds its own widget -- and they all read the same
@@ -87,7 +87,7 @@ AbstractBackgroundWidget {
     readonly property string settingsSignature: [
         root.configEntry.compact, root.configEntry.sections,
         root.configEntry.fontSize, root.configEntry.showPanel,
-        root.configEntry.showLegacy
+        root.configEntry.showLegacy, root.configEntry.textColor
     ].join("|")
     onSettingsSignatureChanged: root.refresh()
 
@@ -125,7 +125,7 @@ AbstractBackgroundWidget {
                 topMargin: 16
             }
             horizontalAlignment: Text.AlignLeft
-            color: root.colText
+            color: root.configEntry.textColor ?? "#ffffff"
             text: root.output.length > 0 ? root.output : "ultrastats: no data"
             font {
                 family: Appearance.font.family.monospace
