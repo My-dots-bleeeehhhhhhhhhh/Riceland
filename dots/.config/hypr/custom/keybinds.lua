@@ -68,8 +68,14 @@ hl.bind("SHIFT + Print", hl.dsp.exec_cmd(
 -- ############################################################################
 -- Release a captured cursor
 -- ############################################################################
--- Games hold the pointer with a Wayland pointer constraint (or an X11 grab).
--- Hyprland has a dispatcher for handing it back; without a bind on it there is
--- no way to get the cursor out short of killing focus some other way.
-hl.bind("SUPER + Escape", hl.dsp.release_input_capture(),
+-- There is no "give the cursor back" dispatcher. release_input_capture belongs
+-- to the input-capture protocol (input-leap style remote input), not to pointer
+-- constraints, and does nothing to a game holding the mouse.
+--
+-- What actually ends a grab is the window losing focus: both a Wayland pointer
+-- constraint and an X11 pointer grab are dropped when focus moves elsewhere.
+-- An empty special workspace is not enough -- it opens without taking focus, so
+-- the grab survives it. The script focuses a different monitor instead, which
+-- always moves focus and leaves the game running and visible.
+hl.bind("SUPER + Escape", hl.dsp.exec_cmd("hypr-release-cursor"),
     { locked = true, description = "Input: Release captured cursor" })
