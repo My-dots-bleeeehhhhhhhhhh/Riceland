@@ -14,10 +14,14 @@
 hl.window_rule({ match = { modal = true }, float  = true })
 hl.window_rule({ match = { modal = true }, center = true })
 
+
+
+
 -- Portal-provided dialogs (file pickers, "open with", print). Your portal
 -- config routes FileChooser to the KDE backend, so these carry that class.
 hl.window_rule({ match = { class = "^(org\\.freedesktop\\.impl\\.portal\\.desktop\\..*)$" }, float  = true })
 hl.window_rule({ match = { class = "^(org\\.freedesktop\\.impl\\.portal\\.desktop\\..*)$" }, center = true })
+hl.window_rule({ match = { class = "^(tf2_linux)$" }, float})
 
 -- Common dialog titles the stock list misses.
 local dialog_titles = {
@@ -54,3 +58,15 @@ end
 -- These rules come after the stock ones, so they win for this namespace only.
 hl.layer_rule({ match = { namespace = "quickshell:wallpaperSelector" }, blur = true })
 hl.layer_rule({ match = { namespace = "quickshell:wallpaperSelector" }, ignore_alpha = 0.05 })
+
+-- ############################################################################
+-- Steam notification toasts
+-- ############################################################################
+-- Steam draws its "friend started a game" toasts as ordinary X11 toplevels
+-- with no position hint, so the compositor tiles them wherever the layout
+-- happens to put them. Pinning them to a corner and denying focus makes them
+-- behave like notifications instead of windows.
+local steam_toast = { class = "^(steam)$", title = "^(notificationtoasts_.*)$" }
+hl.window_rule({ match = steam_toast, float = true })
+hl.window_rule({ match = steam_toast, no_initial_focus = true })
+hl.window_rule({ match = steam_toast, move = "100%-w-30 100%-h-90" })

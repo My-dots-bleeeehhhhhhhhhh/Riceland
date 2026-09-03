@@ -48,3 +48,28 @@ hl.bind("SUPER + ALT + C", hl.dsp.exec_cmd(codeEditor), { description = "App: Co
 hl.unbind("CTRL + SUPER + T")
 hl.bind("CTRL + SUPER + T", hl.dsp.global("quickshell:wallpaperSelectorToggle"),
     { description = "Shell: Change wallpaper" })
+
+-- ############################################################################
+-- Print = snip
+-- ############################################################################
+-- Stock binds Print to a whole-screen grab straight to the clipboard, so it
+-- never opened the region selector. Snip is the common case; the full grab
+-- moves to SHIFT + Print.
+hl.unbind("Print")
+hl.bind("Print", hl.dsp.global("quickshell:regionScreenshot"),
+    { locked = true, description = "Utilities: Screen snip" })
+hl.bind("Print", hl.dsp.exec_cmd(
+    "pidof qs || pidof slurp || hyprshot --freeze --clipboard-only --mode region --silent"),
+    { locked = true })
+hl.bind("SHIFT + Print", hl.dsp.exec_cmd(
+    "grim -o \"$(hyprctl activeworkspace -j | jq -r '.monitor')\" - | wl-copy"),
+    { locked = true, description = "Utilities: Screenshot (whole screen) >> clipboard" })
+
+-- ############################################################################
+-- Release a captured cursor
+-- ############################################################################
+-- Games hold the pointer with a Wayland pointer constraint (or an X11 grab).
+-- Hyprland has a dispatcher for handing it back; without a bind on it there is
+-- no way to get the cursor out short of killing focus some other way.
+hl.bind("SUPER + Escape", hl.dsp.release_input_capture(),
+    { locked = true, description = "Input: Release captured cursor" })
