@@ -20,6 +20,14 @@ Item {
     property int barCount: config.bars ?? 90
     property var values: []
 
+    // "auto" follows the rice's palette. The accent reads better than the
+    // foreground for bars, which are shape rather than text.
+    readonly property color barColor: {
+        const v = root.config.color;
+        if (v === "auto") return Appearance.colors.colPrimary;
+        return v ?? "#ffffff";
+    }
+
     // cava's ascii output is one line of `;`-separated integers per frame,
     // scaled to ascii_max_range.
     Process {
@@ -105,7 +113,7 @@ Item {
                                  value * (root.config.maxHeight ?? 140))
                 anchors.bottom: parent.bottom
                 radius: root.config.radius ?? 0
-                color: root.config.color ?? "#ffffff"
+                color: root.barColor
                 opacity: root.config.opacity ?? 0.85
 
                 Behavior on height {

@@ -55,6 +55,14 @@ AbstractBackgroundWidget {
     implicitHeight: backgroundShape.implicitHeight
 
     property string output: ""
+
+    // "auto" hands the colour to whatever palette the current rice generated;
+    // anything else is used literally. This widget stays on across rices, so
+    // it needs to be able to stop being ULTRAKILL-white on a rice that is not.
+    function themed(value, fallback) {
+        if (value === "auto") return Appearance.colors.colOnLayer0;
+        return value ?? fallback;
+    }
     property int refreshSeconds: configEntry.refreshSeconds ?? 300
 
     // `compact` is the short block; otherwise the full readout, optionally
@@ -110,7 +118,7 @@ AbstractBackgroundWidget {
             ? ColorUtils.transparentize(Appearance.colors.colLayer0, 0.25)
             : "transparent"
         border.width: root.configEntry.borderWidth ?? 1
-        border.color: root.configEntry.borderColor ?? "#ffffff"
+        border.color: root.themed(root.configEntry.borderColor, "#ffffff")
         implicitWidth: statsText.implicitWidth + 40
         implicitHeight: statsText.implicitHeight + 32
 
@@ -125,7 +133,7 @@ AbstractBackgroundWidget {
                 topMargin: 16
             }
             horizontalAlignment: Text.AlignLeft
-            color: root.configEntry.textColor ?? "#ffffff"
+            color: root.themed(root.configEntry.textColor, "#ffffff")
             text: root.output.length > 0 ? root.output : "ultrastats: no data"
             font {
                 family: Appearance.font.family.monospace
