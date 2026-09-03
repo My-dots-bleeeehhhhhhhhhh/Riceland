@@ -42,7 +42,13 @@ Item {
             "--high", String(root.config.higherCutoff ?? 12000),
             "--noise", String(root.config.noiseReduction ?? 30),
             "--sens", String(root.config.sensitivity ?? 100),
-            "--autosens", (root.config.autosens ?? true) ? "1" : "0"]
+            "--autosens", (root.config.autosens ?? true) ? "1" : "0",
+            "--integral", String(root.config.integral ?? 77),
+            "--gravity", String(root.config.gravity ?? 100),
+            "--overshoot", String(root.config.overshoot ?? 20),
+            "--monstercat", String(root.config.monstercat ?? 0),
+            "--waves", String(root.config.waves ?? 0),
+            "--eq", root.config.eq ?? "1,1,1,1,1"]
         stdout: SplitParser {
             onRead: data => {
                 const points = data.split(";")
@@ -116,8 +122,16 @@ Item {
                 color: root.barColor
                 opacity: root.config.opacity ?? 0.85
 
+                // cava already smooths in time (integral/gravity). Animating
+                // here as well smooths a second time, rounding off exactly the
+                // transients that make a beat visible. 0 disables it entirely
+                // and lets cava's own response through unmodified.
                 Behavior on height {
-                    NumberAnimation { duration: 45; easing.type: Easing.OutQuad }
+                    enabled: (root.config.animationMs ?? 0) > 0
+                    NumberAnimation {
+                        duration: root.config.animationMs ?? 0
+                        easing.type: Easing.OutQuad
+                    }
                 }
             }
         }
