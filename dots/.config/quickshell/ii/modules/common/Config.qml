@@ -190,6 +190,25 @@ Singleton {
                     property real opacity: 0.85
                 }
                 property JsonObject widgets: JsonObject {
+                    property JsonObject announcements: JsonObject {
+                        property bool enable: false
+                        property string placementStrategy: "free"
+                        property real x: 60
+                        property real y: 1100
+                        property string channel: ""
+                        property int count: 3
+                        property int width: 52
+                        property bool notify: true
+                        property int refreshSeconds: 120
+                        property int fontSize: 14
+                        property bool showPanel: true
+                        property int borderWidth: 1
+                        property string borderColor: "#ffffff"
+                        property string textColor: "#ffffff"
+                        property bool grabEffect: false
+                        property string screens: ""
+                        property string positions: "{}"
+                    }
                     property JsonObject serverWatch: JsonObject {
                         property bool enable: false
                         property string placementStrategy: "free"
