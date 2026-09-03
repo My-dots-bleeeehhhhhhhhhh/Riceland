@@ -69,4 +69,10 @@ hl.layer_rule({ match = { namespace = "quickshell:wallpaperSelector" }, ignore_a
 local steam_toast = { class = "^(steam)$", title = "^(notificationtoasts_.*)$" }
 hl.window_rule({ match = steam_toast, float = true })
 hl.window_rule({ match = steam_toast, no_initial_focus = true })
-hl.window_rule({ match = steam_toast, move = "100%-w-30 100%-h-90" })
+-- move takes a table of two values, not a string, and expressions are written
+-- with monitor_w / window_w rather than percentages -- the stock rules in
+-- hyprland/rules.lua are the reference. A malformed move is not rejected; the
+-- window just lands at the default position, which is what put the toast in
+-- the far-left corner.
+hl.window_rule({ match = steam_toast,
+                 move = { "(monitor_w-window_w-30)", "(monitor_h-window_h-90)" } })
