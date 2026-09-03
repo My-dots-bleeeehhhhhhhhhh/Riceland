@@ -18,26 +18,26 @@
     "tool": "functions"
   },
   "appearance": {
-    "extraBackgroundTint": false,
-    "fakeScreenRounding": 0,
+    "extraBackgroundTint": true,
+    "fakeScreenRounding": 2,
     "fonts": {
-      "expressive": "VCR OSD Mono",
+      "expressive": "Mojang",
       "iconNerd": "JetBrains Mono NF",
-      "main": "VCR OSD Mono",
+      "main": "Mojang",
       "monospace": "JetBrainsMono Nerd Font",
-      "numbers": "VCR OSD Mono",
+      "numbers": "Mojang",
       "reading": "Readex Pro",
-      "title": "VCR OSD Mono"
+      "title": "Mojang"
     },
     "palette": {
       "accentColor": "",
-      "type": "scheme-monochrome"
+      "type": "scheme-tonal-spot"
     },
     "transparency": {
       "automatic": true,
       "backgroundTransparency": 0.11,
       "contentTransparency": 0.57,
-      "enable": false
+      "enable": true
     },
     "wallpaperTheming": {
       "enableAppsAndShell": true,
@@ -80,7 +80,7 @@
       "workspaceZoom": 1.07
     },
     "thumbnailPath": "",
-    "wallpaperPath": "/home/fear/.local/share/rices/ultrakill/image-recolored.png",
+    "wallpaperPath": "/home/fear/.local/share/rices/cordcraft/cordcraft_season4.png",
     "widgets": {
       "clock": {
         "cookie": {
@@ -127,7 +127,7 @@
         "bottomLetterSpacing": 6,
         "bottomText": "NOCTURNAL OS",
         "centered": true,
-        "enable": true,
+        "enable": false,
         "fontFamily": "VCR OSD Mono",
         "grabEffect": false,
         "lineGap": 2,
@@ -144,7 +144,7 @@
       "ultrafetch": {
         "borderColor": "#ffffff",
         "borderWidth": 1,
-        "enable": true,
+        "enable": false,
         "fontSize": 15,
         "framesPath": "/home/fear/.local/share/ultrafetch/frames.json",
         "grabEffect": false,
@@ -161,7 +161,7 @@
         "y": 7.17578125
       },
       "ultrastats": {
-        "borderColor": "#ffffff",
+        "borderColor": "auto",
         "borderWidth": 1,
         "compact": false,
         "enable": true,
@@ -174,7 +174,7 @@
         "sections": "campaign",
         "showLegacy": false,
         "showPanel": true,
-        "textColor": "#ffffff",
+        "textColor": "auto",
         "x": 0.3671875,
         "y": 11.67578125
       },
@@ -183,6 +183,26 @@
         "placementStrategy": "mostBusy",
         "x": 918.046875,
         "y": 284.18359375
+      },
+      "serverWatch": {
+        "enable": true,
+        "placementStrategy": "free",
+        "x": 60,
+        "y": 900,
+        "host": "67.222.132.227",
+        "port": 26000,
+        "watch": "gunjicord",
+        "notify": true,
+        "refreshSeconds": 30,
+        "width": 46,
+        "fontSize": 15,
+        "showPanel": true,
+        "borderWidth": 1,
+        "borderColor": "#ffffff",
+        "textColor": "#ffffff",
+        "grabEffect": false,
+        "screens": "DP-5",
+        "positions": "{}"
       }
     },
     "audioBars": {
@@ -190,18 +210,18 @@
       "screens": "DP-5",
       "bars": 400,
       "gap": 1,
-      "maxHeight": 140,
+      "maxHeight": 500,
       "minHeight": 2,
       "bottomMargin": 43,
       "radius": 0,
       "maxValue": 1000,
-      "color": "#ffffff",
+      "color": "auto",
       "opacity": 0.85,
       "lowerCutoff": 40,
       "higherCutoff": 12000,
       "noiseReduction": 30,
-      "sensitivity": 100,
-      "autosens": true,
+      "sensitivity": 200,
+      "autosens": false,
       "gain": 1.2,
       "curve": 0.65
     }

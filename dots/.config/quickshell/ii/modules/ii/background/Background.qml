@@ -20,6 +20,7 @@ import qs.modules.ii.background.widgets.weather
 import qs.modules.ii.background.widgets.ultrastats
 import qs.modules.ii.background.widgets.ultrafetch
 import qs.modules.ii.background.widgets.levelIntro
+import qs.modules.ii.background.widgets.serverWatch
 import qs.modules.ii.background.widgets.audioBars
 
 Variants {
@@ -265,6 +266,22 @@ Variants {
                         duration: Appearance.animation.elementMove.duration
                         easing.type: Appearance.animation.elementMove.type
                         easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
+                    }
+                }
+
+                FadeLoader {
+                    shown: Config.options.background.widgets.serverWatch.enable
+                        && (Config.options.background.widgets.serverWatch.screens.length === 0
+                            || Config.options.background.widgets.serverWatch.screens
+                                .split(",").map(s => s.trim())
+                                .includes(bgRoot.modelData.name))
+                    sourceComponent: ServerWatch {
+                        screenName: bgRoot.modelData.name
+                        screenWidth: bgRoot.screen.width
+                        screenHeight: bgRoot.screen.height
+                        scaledScreenWidth: bgRoot.screen.width
+                        scaledScreenHeight: bgRoot.screen.height
+                        wallpaperScale: 1
                     }
                 }
 

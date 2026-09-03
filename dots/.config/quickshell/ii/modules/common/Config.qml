@@ -183,6 +183,26 @@ Singleton {
                     property real opacity: 0.85
                 }
                 property JsonObject widgets: JsonObject {
+                    property JsonObject serverWatch: JsonObject {
+                        property bool enable: false
+                        property string placementStrategy: "free"
+                        property real x: 60
+                        property real y: 900
+                        property string host: ""
+                        property int port: 25565
+                        property string watch: ""
+                        property bool notify: true
+                        property int refreshSeconds: 30
+                        property int width: 46
+                        property int fontSize: 15
+                        property bool showPanel: true
+                        property int borderWidth: 1
+                        property string borderColor: "#ffffff"
+                        property string textColor: "#ffffff"
+                        property bool grabEffect: false
+                        property string screens: ""
+                        property string positions: "{}"
+                    }
                     property JsonObject levelIntro: JsonObject {
                         property bool enable: false
                         property string placementStrategy: "free"
