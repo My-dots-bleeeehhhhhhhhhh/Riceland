@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Quickshell background widgets
+Comment=ultrastats, ultrafetch, cordfetch, levelIntro, serverWatch, announcements and the audio bars, hosted for Plasma
+Exec=qs -p %h/.config/quickshell/ii/plasma.qml
+Icon=preferences-desktop-theme
+Terminal=false
+X-KDE-Wayland-Interfaces=zwlr_layer_shell_v1
+X-KDE-autostart-phase=2
+OnlyShowIn=KDE;
